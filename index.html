@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#07110d">
+
+    <title>SmartClass AI</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+    <!-- =================================
+         APP
+    ================================== -->
+
+    <div class="app">
+
+        <!-- =============================
+             TOP BAR
+        ============================== -->
+
+        <header class="topbar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    SC
+                </div>
+
+                <div>
+                    <strong>SmartClass</strong>
+                    <span>AI</span>
+                </div>
+
+            </div>
+
+            <div class="live-status">
+                <span></span>
+                LIVE
+            </div>
+
+        </header>
+
+
+        <!-- =============================
+             MAIN CONTENT
+        ============================== -->
+
+        <main id="appContent">
+
+
+            <!-- =================================
+                 HOME
+            ================================== -->
+
+            <section
+                id="homePage"
+                class="page active"
+            >
+
+                <div class="greeting">
+
+                    <span class="eyebrow">
+                        SMART CLASSROOM SYSTEM
+                    </span>
+
+                    <h1>
+                        Find your<br>
+                        <span>classroom.</span>
+                    </h1>
+
+                    <p>
+                        Check availability, reserve your
+                        classroom session and manage your
+                        usage.
+                    </p>
+
+                </div>
+
+
+                <!-- QUICK ACTION -->
+
+                <button
+                    class="primary-action"
+                    onclick="showPage('roomsPage')"
+                >
+
+                    <div>
+                        <small>QUICK ACTION</small>
+                        <strong>Find Available Room</strong>
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- STATUS -->
+
+                <div class="section-title">
+
+                    <div>
+                        <span>LIVE STATUS</span>
+                        <h2>Classrooms</h2>
+                    </div>
+
+                    <button
+                        class="text-button"
+                        onclick="showPage('roomsPage')"
+                    >
+                        View all
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="homeRooms"
+                    class="mini-room-grid"
+                ></div>
+
+
+                <!-- CURRENT SESSION -->
+
+                <div
+                    id="homeSession"
+                    class="home-session hidden"
+                ></div>
+
+
+                <!-- AI CARD -->
+
+                <div class="ai-card">
+
+                    <div class="ai-icon">
+                        ✦
+                    </div>
+
+                    <div class="ai-content">
+
+                        <span>
+                            AI PREDICTION
+                        </span>
+
+                        <h3>
+                            Find the best time
+                        </h3>
+
+                        <p>
+                            Let SmartClass AI predict
+                            classroom availability.
+                        </p>
+
+                    </div>
+
+                    <button
+                        onclick="showPage('predictionPage')"
+                    >
+                        →
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 ROOMS
+            ================================== -->
+
+            <section
+                id="roomsPage"
+                class="page"
+            >
+
+                <div class="page-header">
+
+                    <button
+                        class="back-button"
+                        onclick="showPage('homePage')"
+                    >
+                        ←
+                    </button>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            CLASSROOMS
+                        </span>
+
+                        <h1>
+                            Find a room
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTER -->
+
+                <div class="filter-row">
+
+                    <button
+                        class="filter active"
+                        onclick="filterRooms('ALL', this)"
+                    >
+                        ALL
+                    </button>
+
+                    <button
+                        class="filter"
+                        onclick="filterRooms('AVAILABLE', this)"
+                    >
+                        AVAILABLE
+                    </button>
+
+                    <button
+                        class="filter"
+                        onclick="filterRooms('OCCUPIED', this)"
+                    >
+                        OCCUPIED
+                    </button>
+
+                    <button
+                        class="filter"
+                        onclick="filterRooms('RESERVED', this)"
+                    >
+                        RESERVED
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="roomList"
+                    class="room-list"
+                ></div>
+
+            </section>
+
+
+            <!-- =================================
+                 MY SESSION
+            ================================== -->
+
+            <section
+                id="sessionPage"
+                class="page"
+            >
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            MY SESSION
+                        </span>
+
+                        <h1>
+                            Current session
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="sessionContent"
+                ></div>
+
+            </section>
+
+
+            <!-- =================================
+                 HISTORY
+            ================================== -->
+
+            <section
+                id="historyPage"
+                class="page"
+            >
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            ACTIVITY
+                        </span>
+
+                        <h1>
+                            My history
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="historyList"
+                    class="history-list"
+                ></div>
+
+
+                <button
+                    class="danger-outline"
+                    onclick="clearHistory()"
+                >
+                    CLEAR HISTORY
+                </button>
+
+            </section>
+
+
+            <!-- =================================
+                 AI PREDICTION
+            ================================== -->
+
+            <section
+                id="predictionPage"
+                class="page"
+            >
+
+                <div class="page-header">
+
+                    <button
+                        class="back-button"
+                        onclick="showPage('homePage')"
+                    >
+                        ←
+                    </button>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            SMARTCLASS AI
+                        </span>
+
+                        <h1>
+                            AI Prediction
+                        </h1>
+
+                    </div>
+
+                </div>
+
+
+                <div class="prediction-card">
+
+                    <div class="prediction-intro">
+
+                        <div class="ai-big">
+                            ✦
+                        </div>
+
+                        <h2>
+                            Classroom Availability
+                        </h2>
+
+                        <p>
+                            Predict how likely a classroom
+                            is to be available at your
+                            selected time.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            CLASSROOM
+                        </label>
+
+                        <select id="predictionRoom">
+
+                            <option value="B201">
+                                B201
+                            </option>
+
+                            <option value="B202">
+                                B202
+                            </option>
+
+                            <option value="B203">
+                                B203
+                            </option>
+
+                            <option value="B204">
+                                B204
+                            </option>
+
+                            <option value="B205">
+                                B205
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            DATE
+                        </label>
+
+                        <input
+                            type="date"
+                            id="predictionDate"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            TIME
+                        </label>
+
+                        <input
+                            type="time"
+                            id="predictionTime"
+                        >
+
+                    </div>
+
+
+                    <button
+                        class="primary-button"
+                        onclick="runPrediction()"
+                    >
+                        PREDICT AVAILABILITY
+                    </button>
+
+
+                    <div
+                        id="predictionResult"
+                        class="prediction-result hidden"
+                    ></div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- =================================
+             BOTTOM NAVIGATION
+        ================================== -->
+
+        <nav class="bottom-nav">
+
+            <button
+                class="nav-item active"
+                data-page="homePage"
+                onclick="showPage('homePage')"
+            >
+
+                <span>⌂</span>
+                <small>Home</small>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="roomsPage"
+                onclick="showPage('roomsPage')"
+            >
+
+                <span>⌕</span>
+                <small>Find Room</small>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="sessionPage"
+                onclick="showPage('sessionPage')"
+            >
+
+                <span>◷</span>
+                <small>Session</small>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="historyPage"
+                onclick="showPage('historyPage')"
+            >
+
+                <span>▤</span>
+                <small>History</small>
+
+            </button>
+
+        </nav>
+
+    </div>
+
+
+    <!-- =================================
+         CHECK-IN MODAL
+    ================================== -->
+
+    <div
+        id="checkInModal"
+        class="modal-overlay"
+    >
+
+        <div class="modal">
+
+            <button
+                class="modal-close"
+                onclick="closeCheckIn()"
+            >
+                ×
+            </button>
+
+            <span class="eyebrow">
+                CHECK-IN
+            </span>
+
+            <h2 id="checkInRoomTitle">
+                B201
+            </h2>
+
+            <p class="modal-description">
+                Enter your information to start
+                your classroom session.
+            </p>
+
+
+            <form
+                id="checkInForm"
+                onsubmit="confirmCheckIn(event)"
+            >
+
+                <div class="form-group">
+
+                    <label>
+                        STUDENT ID
+                    </label>
+
+                    <input
+                        id="studentId"
+                        type="text"
+                        placeholder="202612345"
+                        autocomplete="off"
+                    >
+
+                    <small
+                        id="studentError"
+                        class="error"
+                    ></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        PURPOSE
+                    </label>
+
+                    <select id="purpose">
+
+                        <option value="">
+                            Select purpose
+                        </option>
+
+                        <option>
+                            Group Discussion
+                        </option>
+
+                        <option>
+                            Study
+                        </option>
+
+                        <option>
+                            Assignment
+                        </option>
+
+                        <option>
+                            Project Meeting
+                        </option>
+
+                        <option>
+                            Presentation
+                        </option>
+
+                        <option>
+                            Other
+                        </option>
+
+                    </select>
+
+                    <small
+                        id="purposeError"
+                        class="error"
+                    ></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        DURATION
+                    </label>
+
+                    <select id="duration">
+
+                        <option value="">
+                            Select duration
+                        </option>
+
+                        <option value="30">
+                            30 Minutes
+                        </option>
+
+                        <option value="60">
+                            1 Hour
+                        </option>
+
+                        <option value="120">
+                            2 Hours
+                        </option>
+
+                        <option value="180">
+                            3 Hours
+                        </option>
+
+                        <option value="240">
+                            4 Hours
+                        </option>
+
+                    </select>
+
+                    <small
+                        id="durationError"
+                        class="error"
+                    ></small>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    type="submit"
+                >
+                    CONFIRM CHECK-IN
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         CHECKOUT MODAL
+    ================================== -->
+
+    <div
+        id="checkoutModal"
+        class="modal-overlay"
+    >
+
+        <div class="modal center">
+
+            <div class="confirm-icon">
+                ✓
+            </div>
+
+            <span class="eyebrow">
+                CHECK-OUT
+            </span>
+
+            <h2>
+                End session?
+            </h2>
+
+            <p
+                id="checkoutMessage"
+                class="modal-description"
+            >
+                Are you sure you want to check out?
+            </p>
+
+            <div class="modal-actions">
+
+                <button
+                    class="secondary-button"
+                    onclick="closeCheckout()"
+                >
+                    CANCEL
+                </button>
+
+                <button
+                    class="danger-button"
+                    onclick="confirmCheckout()"
+                >
+                    CHECK OUT
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         TOAST
+    ================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
